@@ -20,7 +20,7 @@ def post_detail(request, id):
 
     post = get_object_or_404(Post, is_published=True,
                              category__is_published=True,
-                             pub_date__lte=date_now,               
+                             pub_date__lte=date_now,
                              id=id)
     context = {
         'post': post,
