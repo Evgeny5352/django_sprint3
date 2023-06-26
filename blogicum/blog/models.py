@@ -39,7 +39,7 @@ class Location(PublishedModel):
 class Post(PublishedModel):
     title = models.CharField('Заголовок',
                              max_length=256)
-    text = models.TextField(verbose_name='Текст')
+    text = models.TextField('Текст')
     pub_date = models.DateTimeField('Дата и время публикации',
                                     help_text='Если установить'
                                               ' дату и время в будущем — можно'
