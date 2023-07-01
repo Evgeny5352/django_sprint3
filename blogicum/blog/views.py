@@ -1,15 +1,18 @@
-from blog.models import Post, Category
-import datetime as dt
-from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 
-date_now = dt.datetime.now(tz=dt.timezone(dt.timedelta()))
+from django.shortcuts import get_object_or_404, render
+
+from blog.models import Category, Post
+
+DATE_NOW = timezone.now()
+POSTS_PAGE = 5
 
 
 def index(request):
     posts = Post.objects.filter(is_published=True,
-                                pub_date__lte=date_now,
+                                pub_date__lte=DATE_NOW,
                                 category__is_published=True
-                                ).order_by('-pub_date')[:5]
+                                )[:POSTS_PAGE]
     context = {
         'posts': posts
     }
@@ -20,7 +23,7 @@ def post_detail(request, id):
 
     post = get_object_or_404(Post, is_published=True,
                              category__is_published=True,
-                             pub_date__lte=date_now,
+                             pub_date__lte=DATE_NOW,
                              id=id)
     context = {
         'post': post,
@@ -29,12 +32,10 @@ def post_detail(request, id):
 
 
 def category_posts(request, category_slug):
-    posts = Post.objects.filter(category__slug=category_slug,
-                                is_published=True,
-                                pub_date__lte=date_now)
-    category = get_object_or_404(Category,
-                                 is_published=True,
-                                 slug=category_slug)
+    category = get_object_or_404(Category.objects.filter(
+        is_published=True), slug=category_slug)
+    posts = category.posts_category.filter(is_published=True,
+                                           pub_date__lte=DATE_NOW)
     context = {'posts': posts,
                'category': category}
     return render(request, 'blog/category.html', context)
