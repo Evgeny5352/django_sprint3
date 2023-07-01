@@ -13,18 +13,18 @@ class LocationAdmin(admin.ModelAdmin):
 
 class PostAdmin(admin.ModelAdmin):
     list_display = (
-        'title',
-        'is_published',
-        'category',
-        'location',
-        'pub_date',
-        'author',
-        'text'
+                    'title',
+                    'is_published',
+                    'category',
+                    'location',
+                    'pub_date',
+                    'author',
+                    'text'
     )
     list_editable = (
-        'location',
-        'category',
-        'is_published'
+                     'location',
+                     'category',
+                     'is_published'
     )
     search_fields = (
                      'title',
