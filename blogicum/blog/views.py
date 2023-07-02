@@ -1,16 +1,12 @@
-from django.utils import timezone
-
-from django.shortcuts import get_object_or_404, render
-
 from blog.models import Category, Post
-
-DATE_NOW = timezone.now()
-POSTS_PAGE = 5
+from core.models import POSTS_PAGE
+from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
 
 
 def index(request):
     posts = Post.objects.filter(is_published=True,
-                                pub_date__lte=DATE_NOW,
+                                pub_date__lte=timezone.now(),
                                 category__is_published=True
                                 )[:POSTS_PAGE]
     context = {
@@ -23,7 +19,7 @@ def post_detail(request, id):
 
     post = get_object_or_404(Post, is_published=True,
                              category__is_published=True,
-                             pub_date__lte=DATE_NOW,
+                             pub_date__lte=timezone.now(),
                              id=id)
     context = {
         'post': post,
@@ -34,8 +30,8 @@ def post_detail(request, id):
 def category_posts(request, category_slug):
     category = get_object_or_404(Category.objects.filter(
         is_published=True), slug=category_slug)
-    posts = category.posts_category.filter(is_published=True,
-                                           pub_date__lte=DATE_NOW)
+    posts = category.posts_project.filter(is_published=True,
+                                          pub_date__lte=timezone.now())
     context = {'posts': posts,
                'category': category}
     return render(request, 'blog/category.html', context)

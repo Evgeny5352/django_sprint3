@@ -1,13 +1,9 @@
-from django.db import models
-
 from django.contrib.auth import get_user_model
-
-from core.models import PublishedModel
+from django.db import models
+from core.models import PublishedModel, TITLE_MAX_LENGTH
 
 
 User = get_user_model()
-
-TITLE_MAX_LENGTH = 256
 
 
 class Category(PublishedModel):
@@ -25,7 +21,7 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title
+        return self.title[0:30]
 
 
 class Location(PublishedModel):
@@ -50,25 +46,22 @@ class Post(PublishedModel):
                                               ' делать отложенные публикации.')
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE,
-                               verbose_name='Автор публикации'
-                               )
+                               verbose_name='Автор публикации')
     location = models.ForeignKey(Location,
                                  on_delete=models.SET_NULL,
                                  blank=True,
                                  null=True,
-                                 verbose_name='Местоположение'
-                                 )
+                                 verbose_name='Местоположение')
     category = models.ForeignKey(Category,
                                  on_delete=models.SET_NULL,
                                  null=True,
-                                 verbose_name='Категория'
-                                 )
+                                 verbose_name='Категория')
 
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
-        ordering = ['-pub_date']
-        default_related_name = 'posts_category'
+        ordering = ('-pub_date',)
+        default_related_name = 'posts_project'
 
     def __str__(self):
         return self.title[0:30]
