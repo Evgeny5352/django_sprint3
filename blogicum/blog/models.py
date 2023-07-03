@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from core.models import PublishedModel, TITLE_MAX_LENGTH
+from core.models import PublishedModel
+from .const import TITLE_MAX_LENGTH, TITLE_MAX_STRING
 
 
 User = get_user_model()
@@ -21,7 +22,7 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[0:30]
+        return self.title[:TITLE_MAX_STRING]
 
 
 class Location(PublishedModel):
@@ -33,7 +34,7 @@ class Location(PublishedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[0:30]
+        return self.name[:TITLE_MAX_STRING]
 
 
 class Post(PublishedModel):
@@ -61,7 +62,7 @@ class Post(PublishedModel):
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
         ordering = ('-pub_date',)
-        default_related_name = 'posts_project'
+        default_related_name = 'posts'
 
     def __str__(self):
-        return self.title[0:30]
+        return self.title[:TITLE_MAX_STRING]

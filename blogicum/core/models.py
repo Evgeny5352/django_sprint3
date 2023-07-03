@@ -1,8 +1,5 @@
 from django.db import models
 
-TITLE_MAX_LENGTH = 256
-POSTS_PAGE = 5
-
 
 class PublishedModel(models.Model):
     is_published = models.BooleanField(default=True,
