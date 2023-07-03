@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+
 from django.db import models
 from core.models import PublishedModel
 from .const import TITLE_MAX_LENGTH, TITLE_MAX_STRING
